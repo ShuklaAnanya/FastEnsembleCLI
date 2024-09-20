@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#SBATCH --job-name=JackHMMER_MSA_Protein
-#SBATCH --output=jackhmmer_msa_Protein.out
-#SBATCH --error=jackhmmer_msa_Protein.log
-#SBATCH --time=06:00:00
-#SBATCH --ntasks=1
-#SBATCH --nodes=1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
+#SBATCH --job-name=JackHMMER_MSA_Protein                        # Job Name
+#SBATCH --output=jackhmmer_msa_Protein.out                      # File to which STDOUT will be written
+#SBATCH --error=jackhmmer_msa_Protein.log                       # File to which STDERR will be written
+#SBATCH --time=06:00:00                                         # Time Limit (hrs:min:sec)
+#SBATCH --ntasks=1                                              # Number of Tasks (Processes)
+#SBATCH --nodes=1                                               # Number of Nodes
+#SBATCH --cpus-per-task=4                                       # Number of CPU Cores Per Task
+#SBATCH --mem=32G                                               # Total Memory Limit
 
 # Running Python Script for Generation of JackHMMER MSA
 

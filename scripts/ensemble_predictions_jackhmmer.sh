@@ -14,7 +14,7 @@ CONFIG_FILE = "/path/to/config.json"
 MSA_PATH = "path/to/msa.a3m"                                        # Path to the MSA File ()
 OUTPUT_PATH = "path/to/Protein_Ensemble_Structure_Predictions"      # Path to the Output Directory
 PLATFORM = "gpu"                                                    # Platform (cpu or gpu) for running AlphaFold2
-SEEDS = 10
+SEEDS = 10                                                          # Number of Seeds for Ensemble Prediction)
 
 python $SCRIPT_PATH \
     --config_file "$CONFIG_FILE" \
