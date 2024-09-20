@@ -1,37 +1,40 @@
+# Import Libraries
 import json
 import os
 
-# Configuration dictionary
+# Configuration Dictionary
 config = {
-    "_comment": "GENERAL CONFIGURATIONS",
-    "output_path": "sample_predictions",
-    "jobname": "abl_wt",
+    "_comment": "GENERAL CONFIGURATIONS", # comment: Structure Prediction Configuration File
+    "output_path": "/path/to/sample_predictions", # output_path: Path to save the predictions
+    "jobname": "job_name", # jobname: Name of the job
 
-    "_comment2": "CONFIGURATIONS TO BUILD MSA",
-    "sequence_path": "abl1.fasta",
-    "tmp_dir": "tmp",
-    "homooligomers": 1,
-    "use_ramdisk": True,
+    "_comment2": "CONFIGURATIONS TO BUILD MSA", # comment: MSA Configuration
+    "sequence_path": "protein_sequence.fasta", # sequence_path: Path to the Protein Sequence File (FASTA) [.fasta/.fa]
+    "tmp_dir": "tmp", # tmp_dir: Path to the Temporary Directory (used to store intermediate files)
+    "homooligomers": 1, # homooligomers: Number of Identical Subunits (Monomers) in the Multimeric Protein Complex (Oligomer)
+    # "homooligomers": 2 ()
+    "use_ramdisk": True, # use_ramdisk: Use RAM Disk to Store Intermediate Files (Improves Speed)
 
-    "_comment3": "CONFIGURATIONS TO MAKE PREDICTIONS",
-    "engine": "alphafold2",
-    "msa_path": None,
-    "msa_from": "mmseqs2",
-    "seq_pairs": [
+    "_comment3": "CONFIGURATIONS TO MAKE PREDICTIONS", # comment: Prediction Configuration
+    "engine": "alphafold2", # engine: Prediction Engine [alphafold2/roseTTAFold]
+    "msa_path": None, # msa_path: Path to the Multiple Sequence Alignment (MSA) File [.a3m/.sto] 
+    "msa_from": "mmseqs2", # msa_from: MSA Generation Tool [mmseqs2/jackhmmer]
+    "seq_pairs": [ # seq_pairs: max_seq:extra_seq () FILL THIISSS!!!
         [64, 128],
         [128, 256],
         [256, 512],
         [512, 1024]
     ],
-    "seeds": 10,
-    "platform": "cpu",
-    "save_all": False,
-    "models": [1, 2, 3, 4, 5],
-    "recycles": 4,
-    "subset_msa_to": None,
+    "seeds": 10, # seeds: Number of Seeds to Use for Sampling (used to generate diverse predictions)
+    "platform": "cpu", # platform: Hardware Platform to Use for Prediction [cpu/gpu]
+    "save_all": False, # save_all: Save All Predictions (including intermediate models)
+    "models": [1, 2, 3, 4, 5], # models: Models to Use for Prediction [1-5]
+    "recycles": 4, # recycles: Number of Recycles to Use for Prediction (Used to Refine the Predictions)
+    "subset_msa_to": None, # subset_msa_to: Subset MSA to Use for Prediction (Used to Reduce the Size of MSA Depth)
 
     "_comment4": "GENERAL ANALYSIS CONFIGURATIONS",
-    "align_range": "backbone",
+    "align_range": "backbone", # align_range: Range to Use for Alignment [backbone/all]
+    # 
     "ref1d": None,
     "ref2d1": None,
     "ref2d2": None,

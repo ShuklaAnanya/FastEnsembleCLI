@@ -1,5 +1,6 @@
 import os
 import argparse
+import glob
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -11,7 +12,7 @@ from fast_ensemble.ensemble_analysis.pca import pca_from_ensemble
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build jackhmmer MSA for a list of sequences.")
+    parser = argparse.ArgumentParser(description="Perform PCA and clustering on AF2 ensemble predictions")
 
     parser.add_argument('--config_file', type=str, default='config.json',
                         help="OPTIONAL: Path to load configuration from file (default: config.json)")
@@ -28,7 +29,8 @@ def main():
     parser.add_argument('--analysis_range_name', type=str, help="The job name")
     parser.add_argument('--engine', type=str, help="The job name")
     parser.add_argument('--n_pca_clusters', type=str, help="The job name")
-
+    parser.add_argument('--cluster_all', action='store_true', 
+                        help="If set, cluster predictions from all max_seq:extra_seq configurations together")
 
     args = parser.parse_args()
 
@@ -67,10 +69,23 @@ def main():
     print(f"Number of Clusters: {n_pca_clusters}")
     if starting_residue:
         print(f"Starting Residue: {starting_residue}")
+    print(f"Cluster All Configurations Together? {args.cluster_all}")
     print("***************************************************************\n")
 
     # load predictions to ram
-    pre_analysis_dict = load_predictions(predictions_path, seq_pairs, jobname, starting_residue)
+    pre_analysis_dict = {}
+    if args.cluster_all:
+        for seq_pair in seq_pairs:
+            max_seq, extra_seq = seq_pair
+            config_dir = f'ensemble_prediction_JAK1_FERM_mmseq2_{max_seq}_{extra_seq}'
+            prediction_path = os.path.join(predictions_path, config_dir)
+            pre_analysis_dict.update(load_predictions(prediction_path, [seq_pair], jobname, starting_residue))
+    else:
+        # Load predictions from the specified predictions path
+        pre_analysis_dict = load_predictions(predictions_path, seq_pairs, jobname, starting_residue)
+
+
+    # pre_analysis_dict = load_predictions(predictions_path, seq_pairs, jobname, starting_residue)
     # run pca_analysis
     pca_from_ensemble(jobname, pre_analysis_dict, output_path, align_range, analysis_range, int(n_pca_clusters))
 
